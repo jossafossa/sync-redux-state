@@ -1,3 +1,3 @@
 # How it works
 
-All fulfilled actions in the parent store are sent to the child store using custom middleware. Whenever the child store receives an action, the middleware intercepts it and re-dispatches it to the child store. Whenever the child store receives a pending action, the middleware sends it to the parent store, which then handles the request and sends back the fulfilled action.
+whenever the middleware of the child store encounters a request, that request is send over the message bus. The parent store then waits for that request. The request is stored so we can match it with the response later. After that the request is dispatched in the parent store. When the response comes back to the parent store, it is send back over the message bus to the child store, where it is matched with the original request and the response is dispatched in the child store.

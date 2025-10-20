@@ -1,4 +1,9 @@
 export type Pokemon = {
+  sprite: string;
+  name: string;
+};
+
+export type PokemonFromApi = {
   id: number;
   species: {
     name: string;
@@ -14,7 +19,7 @@ export type Pokemon = {
   };
 };
 
-export type Item = {
+export type ItemFromApi = {
   id: number;
   name: string;
   cost: number;
@@ -31,7 +36,7 @@ export type Item = {
   }>;
 };
 
-export type Location = {
+export type LocationFromApi = {
   id: number;
   name: string;
   region?: {
@@ -44,7 +49,7 @@ export type Location = {
   }>;
 };
 
-export type Berry = {
+export type BerryFromApi = {
   id: number;
   name: string;
   growth_time: number;

@@ -1,6 +1,12 @@
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { Pokemon, Item, Location, Berry } from "./types.ts";
+import type {
+  PokemonFromApi,
+  Pokemon,
+  ItemFromApi,
+  LocationFromApi,
+  BerryFromApi,
+} from "./types.ts";
 
 // Define a service using a base URL and expected endpoints
 export const pokemonApi = createApi({
@@ -11,16 +17,22 @@ export const pokemonApi = createApi({
     getPokemonByName: builder.query<Pokemon, string>({
       query: (name) => `pokemon/${name}`,
       providesTags: ["Pokemon"],
+      transformResponse: (response: PokemonFromApi) => {
+        return {
+          sprite: response.sprites.other["official-artwork"].front_default,
+          name: response.species.name,
+        };
+      },
     }),
-    getItemByName: builder.query<Item, string>({
+    getItemByName: builder.query<ItemFromApi, string>({
       query: (name) => `item/${name}`,
       providesTags: ["Pokemon"],
     }),
-    getLocationByName: builder.query<Location, string>({
+    getLocationByName: builder.query<LocationFromApi, string>({
       query: (name) => `location/${name}`,
       providesTags: ["Pokemon"],
     }),
-    getBerryByName: builder.query<Berry, string>({
+    getBerryByName: builder.query<BerryFromApi, string>({
       query: (name) => `berry/${name}`,
       providesTags: ["Pokemon"],
     }),

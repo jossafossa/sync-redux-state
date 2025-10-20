@@ -1,20 +1,25 @@
 export type Pokemon = {
+  sprite: string;
+  name: string;
+};
+
+export type PokemonFromApi = {
   id: number;
-  species: {
-    name: string;
-    url: string;
-  };
+  name: string;
   sprites: {
-    front_shiny: string;
     other: {
       "official-artwork": {
         front_default: string;
       };
     };
   };
+  species: {
+    name: string;
+    url: string;
+  };
 };
 
-export type Item = {
+export type ItemFromApi = {
   id: number;
   name: string;
   cost: number;
@@ -31,7 +36,7 @@ export type Item = {
   }>;
 };
 
-export type Location = {
+export type LocationFromApi = {
   id: number;
   name: string;
   region?: {
@@ -44,7 +49,7 @@ export type Location = {
   }>;
 };
 
-export type Berry = {
+export type BerryFromApi = {
   id: number;
   name: string;
   growth_time: number;

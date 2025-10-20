@@ -8,13 +8,15 @@ const pendingRequests = new Set<string>();
 const log = getLogger({ prefix: "PARENT", color: "lime" });
 
 const messageBusMiddleware: Middleware = () => (next) => (action: unknown) => {
-  const requestId = action.meta?.requestId;
+  if (action.type !== "pokemonApi/executeQuery/fulfilled") return next(action);
 
-  if (!pendingRequests.has(requestId)) {
+  const queryCacheKey = action.meta?.arg?.queryCacheKey;
+
+  if (!pendingRequests.has(queryCacheKey)) {
     return next(action);
   }
 
-  log("fulfilled", action.meta.arg.endpointName, action.meta.arg.originalArgs);
+  log("fulfilled", action);
 
   window.dispatchEvent(
     new CustomEvent("sync", {
@@ -23,7 +25,7 @@ const messageBusMiddleware: Middleware = () => (next) => (action: unknown) => {
       },
     })
   );
-  pendingRequests.delete(requestId);
+  pendingRequests.delete(queryCacheKey);
 
   return next(action);
 };
@@ -31,17 +33,19 @@ const messageBusMiddleware: Middleware = () => (next) => (action: unknown) => {
 window.addEventListener("request", async (event) => {
   const action = event.detail.action;
 
-  const { endpointName, originalArgs } = action.meta.arg;
+  const { endpointName, originalArgs, queryCacheKey } = action.meta.arg;
 
-  const result = store.dispatch(
+  log("request", action);
+
+  pendingRequests.add(queryCacheKey);
+
+  store.dispatch(
     pokemonApi.endpoints[
       endpointName as keyof typeof pokemonApi.endpoints
     ].initiate(originalArgs, {
       subscribe: false,
     }) as unknown as ReturnType<typeof store.dispatch>
   );
-
-  pendingRequests.add(result.requestId);
 });
 
 export const store = configureStore({

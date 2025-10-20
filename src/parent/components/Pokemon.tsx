@@ -14,11 +14,8 @@ export const Pokemon = ({ name }: PokemonProps) => {
         <>Loading...</>
       ) : data ? (
         <>
-          <h3>{data.species.name}</h3>
-          <img
-            src={data.sprites.other["official-artwork"].front_default}
-            alt={data.species.name}
-          />
+          <h3>{data.name}</h3>
+          <img src={data.sprite} alt={data.name} />
         </>
       ) : null}
     </div>

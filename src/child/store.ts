@@ -6,9 +6,9 @@ import { getLogger } from "../helpers";
 const log = getLogger({ prefix: "CHILD", color: "orange" });
 
 const messageBusMiddleware: Middleware = () => (next) => (action) => {
-  if (action.type !== "pokemonApi/executeQuery/pending") return;
+  if (action.type !== "pokemonApi/executeQuery/pending") return next(action);
 
-  log("request", action.meta.arg.endpointName, action.meta.arg.originalArgs);
+  log("request", action);
 
   window.dispatchEvent(
     new CustomEvent("request", {
@@ -24,8 +24,7 @@ const messageBusMiddleware: Middleware = () => (next) => (action) => {
 window.addEventListener("sync", (event) => {
   const action = event.detail.action;
 
-  if (action.type !== "pokemonApi/executeQuery/fulfilled") return;
-  log(action);
+  log("fulfilled", action);
 
   const { meta, payload } = action;
   store.dispatch(

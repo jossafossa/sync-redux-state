@@ -5,6 +5,7 @@ import { getLogger } from "../helpers";
 
 const log = getLogger({ prefix: "CHILD", color: "orange" });
 
+// 1. Send DataRequest:
 const messageBusMiddleware: Middleware = () => (next) => (action) => {
   if (action.type !== "pokemonApi/executeQuery/pending") return next(action);
 
@@ -21,6 +22,7 @@ const messageBusMiddleware: Middleware = () => (next) => (action) => {
   return next(action);
 };
 
+// 4. Dispatch DataResult:
 window.addEventListener("sync", (event) => {
   const action = event.detail.action;
 

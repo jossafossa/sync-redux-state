@@ -3,10 +3,11 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { pokemonApi } from "./services/pokemon";
 import { getLogger } from "../helpers";
 
-const pendingRequests = new Set<string>();
-
 const log = getLogger({ prefix: "PARENT", color: "lime" });
 
+const pendingRequests = new Set<string>();
+
+// 3. Send DataResult:
 const messageBusMiddleware: Middleware = () => (next) => (action: unknown) => {
   if (action.type !== "pokemonApi/executeQuery/fulfilled") return next(action);
 
@@ -30,6 +31,7 @@ const messageBusMiddleware: Middleware = () => (next) => (action: unknown) => {
   return next(action);
 };
 
+// 2. Dispatch DataRequest:
 window.addEventListener("request", async (event) => {
   const action = event.detail.action;
 

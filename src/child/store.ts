@@ -9,10 +9,10 @@ const log = getLogger({ prefix: "CHILD", color: "orange" });
 const messageBusMiddleware: Middleware = () => (next) => (action) => {
   if (action.type !== "pokemonApi/executeQuery/pending") return next(action);
 
-  log("request", action);
+  log("pending", action);
 
   window.dispatchEvent(
-    new CustomEvent("request", {
+    new CustomEvent("pending", {
       detail: {
         action,
       },
@@ -23,7 +23,7 @@ const messageBusMiddleware: Middleware = () => (next) => (action) => {
 };
 
 // 4. Dispatch DataResult:
-window.addEventListener("sync", (event) => {
+window.addEventListener("fulfilled", (event) => {
   const action = event.detail.action;
 
   log("fulfilled", action);

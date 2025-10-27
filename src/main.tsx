@@ -7,22 +7,22 @@ import "./main.css";
 declare global {
   interface Window {
     addEventListener(
-      type: "sync",
+      type: "fulfilled",
       listener: (event: CustomEvent) => void,
       options?: boolean | AddEventListenerOptions
     ): void;
     addEventListener(
-      type: "request",
+      type: "pending",
       listener: (event: CustomEvent) => void,
       options?: boolean | AddEventListenerOptions
     ): void;
     removeEventListener(
-      type: "sync",
+      type: "fulfilled",
       listener: (event: CustomEvent) => void,
       options?: boolean | EventListenerOptions
     ): void;
     removeEventListener(
-      type: "request",
+      type: "pending",
       listener: (event: CustomEvent) => void,
       options?: boolean | EventListenerOptions
     ): void;

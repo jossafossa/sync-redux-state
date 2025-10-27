@@ -1,9 +1,9 @@
 // Topics (example):
-// -> "rtkq/request"
+// -> "rtkq/pending"
 // <- "rtkq/response"
 
 // Common
-export type RtkqTopic = "rtkq/request" | "rtkq/response";
+export type RtkqTopic = "rtkq/pending" | "rtkq/response";
 
 export type RtkqRequestBase = {
   kind: "query" | "mutation";

@@ -20,7 +20,7 @@ const messageBusMiddleware: Middleware = () => (next) => (action: unknown) => {
   log("fulfilled", action);
 
   window.dispatchEvent(
-    new CustomEvent("sync", {
+    new CustomEvent("fulfilled", {
       detail: {
         action,
       },
@@ -32,12 +32,12 @@ const messageBusMiddleware: Middleware = () => (next) => (action: unknown) => {
 };
 
 // 2. Dispatch DataRequest:
-window.addEventListener("request", async (event) => {
+window.addEventListener("pending", async (event) => {
   const action = event.detail.action;
 
   const { endpointName, originalArgs, queryCacheKey } = action.meta.arg;
 
-  log("request", action);
+  log("pending", action);
 
   pendingRequests.add(queryCacheKey);
 
